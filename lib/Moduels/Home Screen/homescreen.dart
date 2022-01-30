@@ -54,15 +54,64 @@ class _HomeScreenState extends State<HomeScreen> {
           InkWell(
             onTap:()
             {
-              notificationHelper.cancelAllNotification();
-              _taskController.deleteAllTasks();
-              Get.snackbar(
-                  'Warning',
-                  'You\'r Delete All Task',
-                duration: Duration(seconds: 4),
-                backgroundColor: Colors.amber.withOpacity(0.22),
-                icon: Icon(IconBroken.infoCircle)
+              final AlertDialog alert = AlertDialog(
+                title: Text('Delete Task'),
+                content: Container(
+                  height: 100,
+                  child: Column(
+                    children:
+                    [
+                      Text(
+                          'You\'r Go to Delete All Tasks in this App',
+                      ),
+                      Spacer(),
+                      Row(
+                        children:
+                        [
+                          Expanded(
+                            child: ElevatedButton(
+                              child: Text('Delete'),
+                              onPressed: ()
+                              {
+                                notificationHelper.cancelAllNotification();
+                                _taskController.deleteAllTasks();
+
+                                Get.back();
+                                Get.snackbar(
+                                    'Warning',
+                                    'You\'r Delete All Task',
+                                  duration: Duration(seconds: 4),
+                                  backgroundColor: Colors.amber.withOpacity(0.22),
+                                  icon: Icon(IconBroken.infoCircle)
+                                );
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:MaterialStateProperty.all(Colors.red),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 15,),
+                          Expanded(
+                            child: ElevatedButton(
+                              child: Text('Cancel'),
+                              onPressed: ()
+                              {
+                                Get.back();
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.grey),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               );
+              showDialog(context: context, builder: (ctx){return alert;});
+
+
             },
             child: Icon(
                 IconBroken.delete,
