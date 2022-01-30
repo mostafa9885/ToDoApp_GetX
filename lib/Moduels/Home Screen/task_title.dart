@@ -1,8 +1,6 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:todowithgetx/Models/task_model.dart';
-import 'package:todowithgetx/Moduels/Task/add_task_screen.dart';
 import 'package:todowithgetx/Shared/Colors%20and%20Icons/colors_icons.dart';
 
 class TaskTitle extends StatelessWidget {

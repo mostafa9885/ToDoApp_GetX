@@ -1,4 +1,4 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -38,8 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _taskController.getTasks();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -54,64 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
           InkWell(
             onTap:()
             {
-              final AlertDialog alert = AlertDialog(
-                title: Text('Delete Task'),
-                content: Container(
-                  height: 100,
-                  child: Column(
-                    children:
-                    [
-                      Text(
-                          'You\'r Go to Delete All Tasks in this App',
-                      ),
-                      Spacer(),
-                      Row(
-                        children:
-                        [
-                          Expanded(
-                            child: ElevatedButton(
-                              child: Text('Delete'),
-                              onPressed: ()
-                              {
-                                notificationHelper.cancelAllNotification();
-                                _taskController.deleteAllTasks();
-
-                                Get.back();
-                                Get.snackbar(
-                                    'Warning',
-                                    'You\'r Delete All Task',
-                                  duration: Duration(seconds: 4),
-                                  backgroundColor: Colors.amber.withOpacity(0.22),
-                                  icon: Icon(IconBroken.infoCircle)
-                                );
-                              },
-                              style: ButtonStyle(
-                                backgroundColor:MaterialStateProperty.all(Colors.red),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 15,),
-                          Expanded(
-                            child: ElevatedButton(
-                              child: Text('Cancel'),
-                              onPressed: ()
-                              {
-                                Get.back();
-                              },
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(Colors.grey),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
-              showDialog(context: context, builder: (ctx){return alert;});
-
-
+              alertDialogBuild(context);
             },
             child: Icon(
                 IconBroken.delete,
@@ -231,55 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 5),
-            //ListIsEmpty(screenHeight),
-            // Obx(
-            //     ()
-            //     {
-            //       if(_taskController.taskList.isEmpty)
-            //       {
-            //         return Column(
-            //           children: [
-            //             ListIsEmpty(screenHeight),
-            //           ],
-            //         );
-            //       }
-            //       else
-            //       {
-            //         return RefreshIndicator(
-            //           onRefresh: ()
-            //           {
-            //             return _taskController.getTasks();
-            //           },
-            //
-            //           child: ListView.separated(
-            //             shrinkWrap: true,
-            //             physics: NeverScrollableScrollPhysics(),
-            //             itemBuilder: (context, index)
-            //             {
-            //               var task = _taskController.taskList[index];
-            //               var hour = task.startTime.toString().split(':')[0];
-            //               var minute = task.endTime.toString().split(':')[1];
-            //               debugPrint('My Time is ' + hour);
-            //               debugPrint('My minute is ' + minute);
-            //
-            //               var date = DateFormat.jm().parse(task.startTime);
-            //               var myTime = DateFormat('HH:mm').format(date);
-            //
-            //               notificationHelper.scheduledNotification(
-            //                 int.parse(myTime.toString().split(':')[0]),
-            //                 int.parse(myTime.toString().split(':')[1]),
-            //                 task,
-            //               );
-            //               return NoteItemBuilder(task, context, index);
-            //
-            //             },
-            //               separatorBuilder: (context, index) => SizedBox(height: 10),
-            //               itemCount: _taskController.taskList.length,
-            //           ),
-            //         );
-            //       }
-            //     }
-            // ),
+
             _showTask(screenHeight),
           ],
         ),
@@ -287,7 +180,65 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+   void alertDialogBuild(BuildContext context)
+   {
+    final AlertDialog alert =  AlertDialog(
+      title: Text('Delete Task'),
+      content: Container(
+        height: 100,
+        child: Column(
+          children:
+          [
+            Text(
+                'Are you sure to delete all tasks?',
+            ),
+            Spacer(),
+            Row(
+              children:
+              [
+                Expanded(
+                  child: ElevatedButton(
+                    child: Text('Delete'),
+                    onPressed: ()
+                    {
+                      notificationHelper.cancelAllNotification();
+                      _taskController.deleteAllTasks();
 
+                      Get.back();
+                      Get.snackbar(
+                          'Warning',
+                          'You\'r Delete All Task',
+                        duration: Duration(seconds: 4),
+                        backgroundColor: Colors.amber.withOpacity(0.22),
+                        icon: Icon(IconBroken.infoCircle)
+                      );
+                    },
+                    style: ButtonStyle(
+                      backgroundColor:MaterialStateProperty.all(Colors.red),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 15,),
+                Expanded(
+                  child: ElevatedButton(
+                    child: Text('Cancel'),
+                    onPressed: ()
+                    {
+                      Get.back();
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.grey),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+    showDialog(context: context, builder: (ctx){return alert;}, barrierDismissible: false);
+   }
 
   _showTask(double screen)
   {
@@ -544,227 +495,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-// Widget NoteItemBuilder(Task task, context, index) => AnimationConfiguration.staggeredList(
-//   duration: const Duration(milliseconds: 2000),
-//   position: index,
-//   child: SlideAnimation(
-//     horizontalOffset: 400,
-//     verticalOffset: 300,
-//     child: FadeInAnimation(
-//       child:   InkWell(
-//         onTap: () {
-//           showModalBottomSheet(
-//             shape: const RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.vertical(
-//                   top: Radius.circular(20),
-//                 )),
-//             context: context,
-//             builder: (_) => Padding(
-//               padding: const EdgeInsets.all(10.0),
-//               child: Column(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   task.isCompleted == 1
-//                       ? Column(
-//                     children:
-//                     [
-//                       InkWell(
-//                         highlightColor: Theme.of(context).scaffoldBackgroundColor,
-//                         onTap: ()
-//                         {
-//                           _taskController.deleteTasks(task);
-//                           Get.back();
-//                         },
-//                         child: Row(
-//                           children: [
-//                             CircleAvatar(
-//                               radius: 25,
-//                               backgroundColor: Colors.redAccent,
-//                               child: Icon(
-//                                 Icons.clear,
-//                                 color: Colors.white,
-//                               ),
-//                             ),
-//                             SizedBox(
-//                               width: 8,
-//                             ),
-//                             Text(
-//                               'Delete Task',
-//                               style: TextStyle(
-//                                   fontSize: 15,
-//                                   fontWeight: FontWeight.w700,
-//                                   fontFamily: 'Quicksand'
-//                               ),
-//                             )
-//                           ],
-//                         ),
-//                       ),
-//                     ],
-//                   )
-//                       : Column(
-//                     children: [
-//                       InkWell(
-//                         onTap: ()
-//                         {
-//                           _taskController.updateIsCompleteTasks(task.id!);
-//                           Get.back();
-//                         },
-//                         highlightColor: Theme.of(context).scaffoldBackgroundColor,
-//                         child: Row(
-//                           children: [
-//                             CircleAvatar(
-//                               radius: 25,
-//                               backgroundColor: Colors.green,
-//                               child: Icon(
-//                                 Icons.done,
-//                                 color: Colors.white,
-//                               ),
-//                             ),
-//                             SizedBox(
-//                               width: 8,
-//                             ),
-//                             Text(
-//                               'Task Complete',
-//                               style: TextStyle(
-//                                 fontSize: 15,
-//                                 fontWeight: FontWeight.w700,
-//                                 fontFamily: 'Quicksand',
-//                               ),
-//                             )
-//                           ],
-//                         ),
-//                       ),
-//                       SizedBox(height: 10),
-//                       InkWell(
-//                         onTap: ()
-//                         {
-//                           _taskController.deleteTasks(task);
-//                           Get.back();
-//                         },
-//                         highlightColor: Theme.of(context).scaffoldBackgroundColor,
-//                         child: Row(
-//                           children: [
-//                             CircleAvatar(
-//                               radius: 25,
-//                               backgroundColor: Colors.redAccent,
-//                               child: Icon(
-//                                 Icons.clear,
-//                                 color: Colors.white,
-//                               ),
-//                             ),
-//                             SizedBox(
-//                               width: 8,
-//                             ),
-//                             Text(
-//                               'Delete Task',
-//                               style: TextStyle(
-//                                   fontSize: 15,
-//                                   fontWeight: FontWeight.w700,
-//                                   fontFamily: 'Quicksand'
-//                               ),
-//                             )
-//                           ],
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           );
-//         },
-//         highlightColor: Theme.of(context).scaffoldBackgroundColor,
-//         overlayColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor),
-//         child: Container(
-//           child: Container(
-//             padding: EdgeInsets.all(12),
-//             decoration: BoxDecoration(
-//               color: /* getColor(task.color)*/  /**/ColorApp.blueAccent,
-//               borderRadius: BorderRadius.circular(10),
-//             ),
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 Expanded(
-//                     child: SingleChildScrollView(
-//                       child: Column(
-//                         crossAxisAlignment: CrossAxisAlignment.start,
-//                         mainAxisAlignment: MainAxisAlignment.start,
-//                         children: [
-//                           Text(
-//                             /**/
-//                             '${task.title}' /*'Mostafa Note'*/,
-//                             style: TextStyle(
-//                               color: ColorApp.whiteColor,
-//                               fontSize: 15,
-//                               fontWeight: FontWeight.w700,
-//                               fontFamily: 'Quicksand',
-//                             ),
-//                           ),
-//                           const SizedBox(height: 8),
-//                           Row(
-//                             children: [
-//                               Icon(
-//                                 IconAPP.accessTimeRounded,
-//                                 color: ColorApp.whiteColor,
-//                               ),
-//                               const SizedBox(width: 5),
-//                               Text(
-//                                 '${task.startTime} ' /*'${DateFormat('hh:mm a').format(DateTime.now()).toString()} '*/,
-//                                 style: TextStyle(color: ColorApp.whiteColor),
-//                               ),
-//                               Text(
-//                                 /**/
-//                                 '- ${task.endTime}' /*'- ${DateFormat('hh:mm a').format(DateTime.now()).toString()}'*/,
-//                                 style: TextStyle(color: ColorApp.whiteColor),
-//                               ),
-//                             ],
-//                           ),
-//                           const SizedBox(height: 15),
-//                           Text(
-//                             /**/
-//                             '${task.note}' /*'Mostafa Najjar, Civil Engineer and Flutter Developer'*/,
-//                             style: TextStyle(
-//                                 color: ColorApp.whiteColor,
-//                                 fontWeight: FontWeight.w300,
-//                                 fontFamily: 'OpenSans'),
-//                           ),
-//                         ],
-//                       ),
-//                     )),
-//                 Container(
-//                   height: 60,
-//                   width: 0.5,
-//                   color: Colors.white,
-//                 ),
-//                 const SizedBox(
-//                   width: 3,
-//                 ),
-//                 RotatedBox(
-//                   quarterTurns: 3,
-//                   child: Text(
-//                     '${task.isCompleted == 0 ? 'TODO' : 'Completed'}',
-//                     style: TextStyle(
-//                       fontWeight: FontWeight.w700,
-//                       fontSize: 12,
-//                       color: ColorApp.whiteColor,
-//                       fontFamily: 'Quicksand',
-//                     ),
-//                     textAlign: TextAlign.center,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     ),
-//   ),
-// );
-
-
-
 Widget ListIsEmpty(double screen) => Container(
 
   child:   Column(
@@ -774,11 +504,7 @@ Widget ListIsEmpty(double screen) => Container(
           SizedBox(
             height: screen * 0.19,
           ),
-          // Image(
-          //   image: AssetImage('assets/image/appicon.jpeg'),
-          //   height: 100,
-          //   width: 100,
-          // ),
+
           Icon(IconBroken.infoCircle, size: 50,),
           SizedBox(
             height: 8,
