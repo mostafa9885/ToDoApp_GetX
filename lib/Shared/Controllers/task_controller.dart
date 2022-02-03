@@ -9,6 +9,7 @@ class TaskController extends GetxController
 {
   final taskList = [].obs;
 
+
   addTask(Task? task)
   {
     return DataBaseHelper.insertDatabase(task);
@@ -43,5 +44,9 @@ class TaskController extends GetxController
     await DataBaseHelper.updateDatabaseTodo(id);
     getTasks();
   }
+
+
+
+
 
 }

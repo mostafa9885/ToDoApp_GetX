@@ -50,19 +50,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             'Add Task',
         ),
         titleSpacing: 0,
-        actions:
-        [
-          const SizedBox(
-            width: 7,
-          ),
-          IconButton(
-            onPressed: ()
-            {
-              ThemeServices().switchThemeMode();
-            },
-            icon: Get.isDarkMode ? Icon(Icons.wb_sunny_rounded) : Icon(Icons.brightness_2),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

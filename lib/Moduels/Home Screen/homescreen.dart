@@ -5,6 +5,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:todowithgetx/Models/task_model.dart';
+import 'package:todowithgetx/Moduels/All%20Task%20Screen/all_task_screen.dart';
 import 'package:todowithgetx/Moduels/Task/add_task_screen.dart';
 import 'package:todowithgetx/Moduels/Home%20Screen/task_title.dart';
 import 'package:todowithgetx/Shared/Colors%20and%20Icons/colors_icons.dart';
@@ -48,17 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
-        actions: [
-          InkWell(
-            onTap:()
-            {
-              alertDialogBuild(context);
-            },
-            child: Icon(
-                IconBroken.delete,
-              color: Get.isDarkMode ? Colors.white : Colors.white,
-            ),
-          ),
+        actions:
+        [
           const SizedBox(
             width: 7,
           ),
@@ -71,6 +63,64 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Get.isDarkMode
                 ? Icon(Icons.wb_sunny_rounded)
                 : Icon(Icons.brightness_2),
+          ),
+          InkWell(
+            onTap:()
+            {
+              final AlertDialog alert =  AlertDialog(
+                content: Container(
+                  height: 100,
+                  child: Column(
+                    children:
+                    [
+                      Text('Number Of Task: ${_taskController.taskList.length}'),
+                      Spacer(),
+                      Row(
+                        children:
+                        [
+                          Expanded(
+                            child: ElevatedButton(
+                              child: Text('Show Tasks'),
+                              onPressed: ()
+                              {
+
+                                Get.back();
+                                Get.to(AllTaskScreen());
+
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:MaterialStateProperty.all(Colors.red),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 15,),
+                          Expanded(
+                            child: ElevatedButton(
+                              child: Text('Cancel'),
+                              onPressed: ()
+                              {
+                                Get.back();
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.grey),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+              showDialog(context: context, builder: (ctx){return alert;}, barrierDismissible: false);
+            },
+            child: Icon(
+              IconBroken.infoCircle,
+              color: Get.isDarkMode ? Colors.white : Colors.white,
+            ),
+          ),
+          const SizedBox(
+            width: 10,
           ),
         ],
       ),
@@ -302,6 +352,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: TaskTitle(
                           task: task,
+                          isAllTask: false,
                         ),
                       ),
                     ),
@@ -415,9 +466,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     Get.snackbar(
                         'Completed Task',
                         '${task.title}',
+
                         duration: Duration(seconds: 4),
                         backgroundColor: Colors.green.withOpacity(0.22),
-                        icon: Icon(IconBroken.infoCircle)
+                        icon: Icon(IconBroken.infoCircle, color: Colors.white,),
+                        colorText: Colors.white,
                     );
                   },
                   highlightColor: Theme.of(context).scaffoldBackgroundColor,
@@ -487,9 +540,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
 
-
-
-
 }
 
 
@@ -497,7 +547,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 Widget ListIsEmpty(double screen) => Container(
 
-  child:   Column(
+  child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.center,
         children: [

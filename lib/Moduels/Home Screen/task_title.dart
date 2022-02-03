@@ -6,12 +6,15 @@ import 'package:todowithgetx/Shared/Colors%20and%20Icons/colors_icons.dart';
 class TaskTitle extends StatelessWidget {
 
   final Task? task;
+  final bool? isAllTask;
 
-  const TaskTitle({Key? key, required this.task}) : super(key: key);
+  const TaskTitle({Key? key, required this.task, required this.isAllTask}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return isAllTask == true
+        ?
+        Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Container(
         child: Container(
@@ -41,7 +44,144 @@ class TaskTitle extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(
-                            height: 8,
+                          height: 8,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              IconAPP.accessTimeRounded,
+                              color: ColorApp.whiteColor,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              '${task!.startTime} ' /*'${DateFormat('hh:mm a').format(DateTime.now()).toString()} '*/,
+                              style: TextStyle(color: ColorApp.whiteColor),
+                            ),
+                            Text(
+                              /**/
+                              '- ${task!.endTime}' /*'- ${DateFormat('hh:mm a').format(DateTime.now()).toString()}'*/,
+                              style: TextStyle(color: ColorApp.whiteColor),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.date_range,
+                              color: ColorApp.whiteColor,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                                '${task!.date}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Quicksand'
+                                ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                            height: 15
+                        ),
+                        Text(
+                          /**/
+                          '${task!.note}' /*'Mostafa Najjar, Civil Engineer and Flutter Developer'*/,
+                          style: TextStyle(
+                              color: ColorApp.whiteColor,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'OpenSans'),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 105.0),
+                          child: Container(
+                              height: 0.5,
+                              color: Colors.white
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          'REPEAT: ${task!.repeat}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Quicksand',
+                          ),
+                        ),
+                        Text(
+                          'REMINDER BEFORE: ${task!.remind} Minute',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Quicksand',
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+              Container(
+                height: 60,
+                width: 0.5,
+                color: Colors.white,
+              ),
+              const SizedBox(
+                width: 3,
+              ),
+              RotatedBox(
+                quarterTurns: 3,
+                child: Text(
+                  '${task!.isCompleted == 0 ? 'TODO' : 'Completed'}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12,
+                    color: ColorApp.whiteColor,
+                    fontFamily: 'Quicksand',
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    )
+        :
+        Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Container(
+        child: Container(
+          padding: EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: /**/ getColor(task!.color) /*ColorApp.blueAccent*/,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          /**/
+                          '${task!.title}' /*'Mostafa Note'*/,
+                          style: TextStyle(
+                            color: ColorApp.whiteColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Quicksand',
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 8,
                         ),
                         Row(
                           children: [
@@ -78,15 +218,15 @@ class TaskTitle extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(right: 105.0),
                           child: Container(
-                            height: 0.5,
-                            color: Colors.white
+                              height: 0.5,
+                              color: Colors.white
                           ),
                         ),
                         const SizedBox(
                           height: 6,
                         ),
                         Text(
-                            'REPEAT: ${task!.repeat}',
+                          'REPEAT: ${task!.repeat}',
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Quicksand',
