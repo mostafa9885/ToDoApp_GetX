@@ -301,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children:
               [
-                ListIsEmpty(screen),
+                ListIsEmpty(screen, context),
               ],
             ),
           );
@@ -545,7 +545,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-Widget ListIsEmpty(double screen) => Container(
+Widget ListIsEmpty(double screen, context) => Container(
 
   child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -554,8 +554,10 @@ Widget ListIsEmpty(double screen) => Container(
           SizedBox(
             height: screen * 0.19,
           ),
-
-          Icon(IconBroken.infoCircle, size: 50,),
+          Icon(
+            IconBroken.infoCircle,
+            size: 50,
+          ),
           SizedBox(
             height: 8,
           ),
@@ -575,6 +577,26 @@ Widget ListIsEmpty(double screen) => Container(
               height: 1.7
             ),
           ),
+          SizedBox(
+            height: 8,
+          ),
+          TextButton(
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(Theme.of(context).scaffoldBackgroundColor)
+              ),
+              onPressed: ()
+                {
+                Get.to(AddTaskScreen());
+                },
+              child: Text(
+                'Add Task?',
+                style: TextStyle(
+                  color: Colors.deepOrange,
+                  fontFamily: 'Quicksand',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+          )
         ],
       ),
 );

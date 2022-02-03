@@ -1,10 +1,12 @@
 
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:todowithgetx/Models/task_model.dart';
+import 'package:todowithgetx/Moduels/Home%20Screen/homescreen.dart';
 import 'package:todowithgetx/Moduels/Home%20Screen/task_title.dart';
 import 'package:todowithgetx/Shared/Controllers/task_controller.dart';
 import 'package:todowithgetx/Shared/Notification/notification_services.dart';
@@ -42,10 +44,22 @@ class _AllTaskScreenState extends State<AllTaskScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        leading: IconButton(
+          onPressed: ()
+          {
+            Get.back();
+          },
+          icon: Icon(IconBroken.arrowLeft2),
+        ),
+        title: Text('All Tasks'),
+        titleSpacing: 0,
         actions:
         [
-          InkWell(
+          _taskController.taskList.length == 0
+              ?
+              Container()
+              :
+              InkWell(
             onTap:()
             {
               alertDialogBuild(context);
@@ -55,6 +69,7 @@ class _AllTaskScreenState extends State<AllTaskScreen> {
               color: Get.isDarkMode ? Colors.white : Colors.white,
             ),
           ),
+
           const SizedBox(
             width: 14,
           )
@@ -81,9 +96,42 @@ class _AllTaskScreenState extends State<AllTaskScreen> {
         {
           return Center(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               children:
               [
-                Text('Empty'),
+                Flushbar(
+                  mainButton: TextButton(
+                    child: Text(
+                      'Go Back',
+                      style: TextStyle(
+                          color: Colors.white,
+                      ),
+                    ),
+                    onPressed: ()
+                    {
+                      Get.back();
+                    },
+                  ),
+                  //icon: Icon(IconBroken.infoSquare),
+                  title: 'Task List is Empty',
+                  message: 'Go Back to add any Task!',
+                  flushbarPosition: FlushbarPosition.BOTTOM,
+                  backgroundColor: Colors.amber.withOpacity(0.8),
+                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Icon(IconBroken.infoSquare),
+                //     SizedBox(width: 5),
+                //     Text(
+                //       'Task List is Empty',
+                //       style: TextStyle(
+                //           fontSize: 20,
+                //           fontFamily: 'Quicksand'
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           );

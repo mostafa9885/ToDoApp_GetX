@@ -46,6 +46,7 @@ dependencies:
   rxdart: ^0.27.3
   sqflite: ^2.0.0+4
   easy_splash_screen: ^1.0.3
+  another_flushbar: ^1.10.28
 
 dev_dependencies:
   flutter_test:
